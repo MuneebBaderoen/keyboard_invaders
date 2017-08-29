@@ -112,7 +112,7 @@
             case 'enemy':
                 this.velocity = {
                     x: 0,
-                    y: 2,
+                    y: 0.35,
                 };
                 break;
             case 'bullet':
@@ -311,7 +311,7 @@
                     context.fillRect(0, 0, window_width, window_height);
                     context.fillStyle = "white";
                     context.font = "50px Georgia";
-                    context.fillText("You lost.", window_width / 2.4, window_height / 2 - 25);
+                    context.fillText("You lose.", window_width / 2.4, window_height / 2 - 25);
                 }
             })
         }
