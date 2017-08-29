@@ -112,7 +112,7 @@
             case 'enemy':
                 this.velocity = {
                     x: 0,
-                    y: 0.2,
+                    y: 2,
                 };
                 break;
             case 'bullet':
@@ -143,6 +143,9 @@
     }
 
     Block.prototype.update = function() {
+    	if(this.type === 'enemy' && hasLost)
+    		return;
+
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
     };
@@ -174,6 +177,7 @@
     };
 
     var hasWon = false;
+    var hasLost = false;
     var words = [
         "awe",
         "jas",
@@ -194,6 +198,14 @@
         "mooi",
         "ez",
         "moar",
+    ];
+    var losingWords = [
+        "worst",
+        "sigh",
+        "really",
+        "wurst",
+        "omgz",
+        "ffs"
     ];
 
     function spawn() {
@@ -283,6 +295,25 @@
             context.fillStyle = "white";
             context.font = "50px Georgia";
             context.fillText("You win!", window_width / 2.4, window_height / 2 - 25);
+        } else {
+            enemies.forEach(function(item) {
+                if (item.position.y > window_height - 100) {
+                    if (!hasLost) {
+                        var loseFire = function() {
+                            var index = Math.floor(Math.random() * losingWords.length);
+                            player.fire(losingWords[index]);
+                        }
+                        setInterval(loseFire, 1000);
+                        setInterval(loseFire, 700);
+                    }
+					hasLost = true;
+                    context.fillStyle = "black";
+                    context.fillRect(0, 0, window_width, window_height);
+                    context.fillStyle = "white";
+                    context.font = "50px Georgia";
+                    context.fillText("You lost.", window_width / 2.4, window_height / 2 - 25);
+                }
+            })
         }
     }
 
